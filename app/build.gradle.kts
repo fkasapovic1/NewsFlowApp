@@ -42,4 +42,14 @@ dependencies {
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
+
+  testImplementation("junit:junit:+")
+  androidTestImplementation("androidx.test.ext:junit:+")
+  androidTestImplementation("androidx.test.espresso:espresso-core:+")
+  androidTestImplementation("androidx.test:core-ktx:+")
+  androidTestImplementation("androidx.test.ext:junit-ktx:+")
+  testImplementation("org.hamcrest:hamcrest:2.2")
+  androidTestImplementation("androidx.test.espresso:espresso-intents:+")
+  androidTestImplementation("androidx.test.espresso:espresso-contrib:+")
+
 }
