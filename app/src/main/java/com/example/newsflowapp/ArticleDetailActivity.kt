@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.newsflowapp.data.getLatestArticles
 import com.example.newsflowapp.data.getSavedArticles
 import com.example.newsflowapp.model.Article
@@ -29,6 +30,12 @@ class ArticleDetailActivity : AppCompatActivity() {
   companion object {
     const val EXTRA_ARTICLE_URL = "article_url"
     const val EXTRA_ARTICLE_TITLE = "article_title"
+    const val EXTRA_ARTICLE_DESCRIPTION = "article_description"
+    const val EXTRA_ARTICLE_CONTENT = "article_content"
+    const val EXTRA_ARTICLE_SOURCE = "article_source"
+    const val EXTRA_ARTICLE_DATE = "article_date"
+    const val EXTRA_ARTICLE_IMAGE = "article_image"
+    const val EXTRA_ARTICLE_CATEGORY = "article_category"
   }
 
 
@@ -36,14 +43,18 @@ class ArticleDetailActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_article_detail)
     initViews()
-    val url = intent.getStringExtra(EXTRA_ARTICLE_URL) ?: run {
-      finish()
-      return
-    }
-    article = getArticleByUrl(url) ?: run {
-      finish()
-      return
-    }
+
+    article = Article(
+      id = 0,
+      title = intent.getStringExtra(EXTRA_ARTICLE_TITLE) ?: "",
+      description = intent.getStringExtra(EXTRA_ARTICLE_DESCRIPTION),
+      content = intent.getStringExtra(EXTRA_ARTICLE_CONTENT),
+      url = intent.getStringExtra(EXTRA_ARTICLE_URL) ?: "",
+      urlToImage = intent.getStringExtra(EXTRA_ARTICLE_IMAGE),
+      publishedAt = intent.getStringExtra(EXTRA_ARTICLE_DATE) ?: "",
+      sourceName = intent.getStringExtra(EXTRA_ARTICLE_SOURCE) ?: "",
+      category = intent.getStringExtra(EXTRA_ARTICLE_CATEGORY)
+    )
     populateDetails()
   }
 
@@ -64,11 +75,23 @@ class ArticleDetailActivity : AppCompatActivity() {
     tvSource.text = article.sourceName
     tvDate.text = article.publishedAt
     tvUrl.text = article.url
-    tvContent.text = article.content ?: article.description
-    val resId = resources.getIdentifier(
-      article.category, "drawable", packageName
-    )
-    if (resId != 0) ivHeader.setImageResource(resId)
+    tvContent.text = article.content ?: article.description ?: "Sadržaj nije dostupan"
+
+
+    if (article.urlToImage != null) {
+      Glide.with(this)
+        .load(article.urlToImage)
+        .centerCrop()
+        .placeholder(R.drawable.ic_news_placeholder)
+        .into(ivHeader)
+    } else {
+      val resId = resources.getIdentifier(
+        article.category ?: "general", "drawable", packageName
+      )
+      ivHeader.setImageResource(if (resId != 0) resId else R.drawable.ic_news_placeholder)
+    }
+
+
     tvUrl.setOnClickListener { openArticleInBrowser() }
     fabShare.setOnClickListener { shareArticle() }
   }

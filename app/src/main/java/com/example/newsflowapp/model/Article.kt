@@ -6,8 +6,8 @@ data class Article(
   val description: String?,
   val content: String?,
   val url: String,
-  val urlToImage: String?,
+  val urlToImage: String?,   // URL slike — može biti null
   val publishedAt: String,
   val sourceName: String,
-  val category: String
+  val category: String?      // Nullable — API ne vraća uvijek kategoriju
 )

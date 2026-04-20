@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.newsflowapp.R
 import com.example.newsflowapp.model.Article
 
@@ -38,17 +39,30 @@ class ArticleAdapter(
     val article = articles[position]
     holder.tvTitle.text = article.title
     holder.tvSource.text = article.sourceName
-    holder.tvDate.text = article.publishedAt
-    // Postavljamo ikonu kategorije iz drawable resursa
-    val context = holder.ivImage.context
-    val resId = context.resources.getIdentifier(
-      article.category, "drawable", context.packageName
-    )
-    if (resId != 0) holder.ivImage.setImageResource(resId)
-    else holder.ivImage.setImageResource(R.drawable.ic_news_placeholder)
-    // Klik na element
+    holder.tvDate.text = article.publishedAt.take(10) // Samo datum, bez vremena
+
+
+    // Prikaz slike: URL s interneta ili lokalna ikona kategorije
+    if (article.urlToImage != null) {
+      Glide.with(holder.ivImage.context)
+        .load(article.urlToImage)
+        .centerCrop()
+        .placeholder(R.drawable.ic_news_placeholder) // Prikazuje dok se učitava
+        .error(R.drawable.ic_news_placeholder)       // Prikazuje ako greška
+        .into(holder.ivImage)
+    } else {
+      // Nema URL slike — prikazujemo ikonu kategorije
+      val context = holder.ivImage.context
+      val resId = context.resources.getIdentifier(
+        article.category ?: "general", "drawable", context.packageName
+      )
+      holder.ivImage.setImageResource(
+        if (resId != 0) resId else R.drawable.ic_news_placeholder
+      )
+    }
     holder.itemView.setOnClickListener { onItemClicked(article) }
   }
+
 
 
   fun updateArticles(newArticles: List<Article>) {

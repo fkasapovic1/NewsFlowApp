@@ -54,5 +54,6 @@ dependencies {
   androidTestImplementation("androidx.test.espresso:espresso-intents:+")
   androidTestImplementation("androidx.test.espresso:espresso-contrib:+")
   implementation("com.google.android.material:material:+")
+  implementation("com.github.bumptech.glide:glide:+")
 
 }
