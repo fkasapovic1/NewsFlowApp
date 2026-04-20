@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navgraph"
+    app:startDestination="@id/headlinesFragment">
+
+  <fragment
+      android:id="@+id/headlinesFragment"
+      android:name="com.example.newsflowapp.fragments.HeadlinesFragment"
+      android:label="Headlines" />
+
+  <fragment
+      android:id="@+id/savedFragment"
+      android:name="com.example.newsflowapp.fragments.SavedFragment"
+      android:label="Saved" />
+
+  <fragment
+      android:id="@+id/searchFragment"
+      android:name="com.example.newsflowapp.fragments.SearchFragment"
+      android:label="Search">
+    <argument
+        android:name="search"
+        app:argType="string"
+        android:defaultValue="" />
+  </fragment>
+
+</navigation>
