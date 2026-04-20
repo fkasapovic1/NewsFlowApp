@@ -1,11 +1,13 @@
 package com.example.newsflowapp
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.newsflowapp.service.NewsHeadlineService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -28,5 +30,15 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.searchFragment, bundle)
       }
     }
+
+    // Unutar MainActivity.onCreate() — dodajemo na kraj
+    val serviceIntent = Intent(this, NewsHeadlineService::class.java)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      startForegroundService(serviceIntent)
+    } else {
+      startService(serviceIntent)
+    }
+
+
   }
 }

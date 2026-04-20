@@ -15,6 +15,12 @@ android {
     versionName = "1.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+    buildConfigField("String", "NEWS_API_KEY", project.properties["NEWS_API_KEY"].toString())
+  }
+
+  buildFeatures {
+    buildConfig = true
   }
 
   buildTypes {
@@ -41,6 +47,7 @@ dependencies {
   implementation(libs.androidx.constraintlayout)
   implementation(libs.androidx.navigation.fragment.ktx)
   implementation(libs.androidx.navigation.ui.ktx)
+  implementation(libs.accessibility.test.framework)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
