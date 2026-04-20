@@ -11,4 +11,11 @@
   <string name="no_articles">Nema dostupnih vijesti</string>
   <string name="loading">Učitavanje...</string>
   <string name="error_network">Greška mreže. Provjeri internet vezu.</string>
+  <string name="headlines_subtitle">Pratite najnovije vijesti</string>
+  <string name="saved_subtitle">Vaši sačuvani članci</string>
+  <string name="search_subtitle">Pretražite hiljade vijesti</string>
+  <string name="nav_headlines">Vijesti</string>
+  <string name="nav_saved">Sačuvano</string>
+  <string name="nav_search">Pretraga</string>
+  <string name="no_results">Nema rezultata za vašu pretragu</string>
 </resources>
