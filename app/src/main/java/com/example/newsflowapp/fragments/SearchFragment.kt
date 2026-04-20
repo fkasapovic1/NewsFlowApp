@@ -8,14 +8,20 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsflowapp.ArticleDetailActivity
 import com.example.newsflowapp.R
 import com.example.newsflowapp.adapter.ArticleAdapter
+import com.example.newsflowapp.data.NewsRepository
 import com.example.newsflowapp.data.getLatestArticles
 import com.example.newsflowapp.model.Article
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -24,6 +30,7 @@ class SearchFragment : Fragment() {
   private lateinit var rvResults: RecyclerView
   private lateinit var tvNoResults: TextView
   private lateinit var adapter: ArticleAdapter
+  private val scope = CoroutineScope(Job() + Dispatchers.Main)
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -56,14 +63,23 @@ class SearchFragment : Fragment() {
 
   private fun performSearch(query: String) {
     if (query.isBlank()) return
-    val results = getLatestArticles().filter {
-      it.title.contains(query, ignoreCase = true) ||
-          it.description?.contains(query, ignoreCase = true) == true
+    Toast.makeText(context, "Pretraga pokrenuta...", Toast.LENGTH_SHORT).show()
+    scope.launch {
+      val result = NewsRepository.searchArticles(query)
+      when (result) {
+        is NewsRepository.Result.Success -> {
+          adapter.updateArticles(result.data)
+          if (result.data.isEmpty()) {
+            Toast.makeText(context, "Nema rezultata", Toast.LENGTH_SHORT).show()
+          }
+        }
+        is NewsRepository.Result.Error -> {
+          Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
+        }
+      }
     }
-    adapter.updateArticles(results)
-    tvNoResults.visibility = if (results.isEmpty()) View.VISIBLE else View.GONE
-    rvResults.visibility = if (results.isEmpty()) View.GONE else View.VISIBLE
   }
+
 
   private fun showArticleDetails(article: Article) {
     val intent = Intent(activity, ArticleDetailActivity::class.java).apply {
