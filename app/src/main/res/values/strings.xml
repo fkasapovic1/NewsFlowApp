@@ -1,0 +1,14 @@
+<!-- res/values/strings.xml -->
+<resources>
+  <string name="app_name">NewsFlowApp</string>
+  <string name="search_hint">Pretraži vijesti...</string>
+  <string name="latest_news">Najnovije vijesti</string>
+  <string name="saved_articles">Sačuvani članci</string>
+  <string name="categories">Kategorije</string>
+  <string name="source">Izvor</string>
+  <string name="read_more">Pročitaj više</string>
+  <string name="share_article">Podijeli članak</string>
+  <string name="no_articles">Nema dostupnih vijesti</string>
+  <string name="loading">Učitavanje...</string>
+  <string name="error_network">Greška mreže. Provjeri internet vezu.</string>
+</resources>
